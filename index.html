@@ -188,6 +188,162 @@
 
       <div class="body-wrap">
   
+    <article id="post-recyclerview" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/07/27/recyclerview/" class="article-date">
+  	<time datetime="2016-07-27T12:10:06.571Z" itemprop="datePublished">2016-07-27</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>#recyclerview  学习</p>
+<p>Recyclerview 是 support-v7包中的新组件，用来替代 listview，gridview的使用。</p>
+<pre><code>public class RecyclerView extends ViewGroup implements ScrollingView, NestedScrollingChild 
+</code></pre><p>可知其实际上是一个实现了scrollingview 和 nestedscrolling的viewgroup。</p>
+<p>其优点为：</p>
+<p>1.强大的布局设置，通过其setlayoutmannager()方法可以很轻松的改变recyclerview 的布局。</p>
+<p>2.集成了动画效果，我们还可以自定义动画效果。</p>
+<p>3.集成了viewholder，在listview 中我们集成viewholder用于item数据复用的效果，在recylerview中我们最终所返回的就是一个viewholder。</p>
+<p>缺点：</p>
+<p>点击事件设置略繁琐</p>
+<p>布局文件</p>
+<pre><code>&lt;android.support.v7.widget.RecyclerView
+   android:id=&quot;@+id/recy&quot;
+   android:layout_width=&quot;match_parent&quot;
+   android:layout_height=&quot;match_parent&quot;
+   &gt;&lt;/android.support.v7.widget.RecyclerView&gt;
+</code></pre><p>使用方法 </p>
+<pre><code>recyclerView = (RecyclerView)findViewById(R.id.recy);
+recyclerView.setLayoutManager(new LinearLayoutManager(this));
+recyclerView.setAdapter(new MRecyclerViewAdapter(ScrollingActivity.this, mstrings));
+recyclerView.setItemAnimator(new DefaultItemAnimator());
+</code></pre><p>adater</p>
+<pre><code>public class MRecyclerViewAdapter extends RecyclerView.Adapter &lt;MRecyclerViewAdapter.MViewHolder&gt;{
+private Context context;
+private List&lt;String&gt; mstrings;
+public MRecyclerViewAdapter(Context context, List&lt;String&gt; strings){
+    this.context = context;
+    mstrings = strings;
+}
+@Override
+public MViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    View view = LayoutInflater.from(context).inflate(R.layout.item_text, parent ,false);
+    MViewHolder mViewHolder = new MViewHolder(view);
+    return mViewHolder;
+}
+
+@Override
+public void onBindViewHolder(final MViewHolder holder,final  int position) {
+    holder.textView.setText(mstrings.get(position));
+}
+
+@Override
+public int getItemCount() {
+    return mstrings.size();
+}
+
+class MViewHolder extends RecyclerView.ViewHolder{
+     TextView textView;
+    public MViewHolder(View itemView) {
+        super(itemView);
+        textView = (TextView)itemView.findViewById(R.id.tv_item);
+    }
+}
+</code></pre><p>}</p>
+<p>其必须override的方法有3个 </p>
+<p>public MViewHolder onCreateViewHolder(ViewGroup parent, int viewType)  这个方法返回值是一个viewholder ，而我们看viewholder的构造方法中传入的参数为view，就是item布局所产生的view。可以看出这个方法是return结果，返回view的。而public void onBindViewHolder(final MViewHolder holder,final  int position)主要用于为viewholder中的组件设置正确的数据的。getitemcount（）用于返回数据的数量。还有一个就是我们自定义的viewholder，初始化组件，绑定组件id。</p>
+<p>经过以上步骤，recylerview就设置好了，但是做为用于替代listview的组件，点击事件是不可能缺少的。</p>
+<p>在listview中我们一般使用setonitemclicklistener来设置点击事件。遗憾的是，google并没有为recyclerview封装这样的方法，我们只能找其他方法。</p>
+<p>最终代码</p>
+<pre><code>public class MRecyclerViewAdapter extends RecyclerView.Adapter &lt;MRecyclerViewAdapter.MViewHolder&gt; implements View.OnClickListener{
+private Context context;
+private List&lt;String&gt; mstrings;
+public MRecyclerViewAdapter(Context context, List&lt;String&gt; strings){
+    this.context = context;
+    mstrings = strings;
+}
+public RecylerViewOnitemClickListener recylerViewOnitemClickListener = null;
+public static interface RecylerViewOnitemClickListener {
+   void onitemclick(View view, String data);
+}
+@Override
+public MViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    View view = LayoutInflater.from(context).inflate(R.layout.item_text, parent ,false);
+    MViewHolder mViewHolder = new MViewHolder(view);
+    view.setOnClickListener(this);
+    return mViewHolder;
+}
+
+@Override
+public void onBindViewHolder(final MViewHolder holder,final  int position) {
+    holder.textView.setText(mstrings.get(position));
+    holder.itemView.setTag(mstrings.get(position));
+}
+
+@Override
+public int getItemCount() {
+    return mstrings.size();
+}
+
+@Override
+public void onClick(View view) {
+    if(recylerViewOnitemClickListener != null){
+     recylerViewOnitemClickListener.onitemclick(view,(String) view.getTag());
+    }
+}
+
+public void setonitemclicklistener(RecylerViewOnitemClickListener recylerViewOnitemClickListener){
+    this.recylerViewOnitemClickListener = recylerViewOnitemClickListener;
+}
+
+class MViewHolder extends RecyclerView.ViewHolder{
+     TextView textView;
+    public MViewHolder(View itemView) {
+        super(itemView);
+        textView = (TextView)itemView.findViewById(R.id.tv_item);
+    }
+}
+</code></pre><p>}</p>
+<pre><code>mRecyclerViewAdapter.setonitemclicklistener(new MRecyclerViewAdapter.RecylerViewOnitemClickListener() {
+       @Override
+       public void onitemclick(View view, String data) {
+           Toast.makeText(ScrollingActivity.this,data,Toast.LENGTH_LONG).show();
+       }
+   });
+</code></pre><p>当我们点击一个recylerview中的item时，首先触发了adapter中这个view 的onclick方法，在onclick方法中，我们调用了RecylerViewOnitemClickListener  的onitemclick方法 ，而我们就实现了这个接口同时重写了onitemclick 方法 ，这样就达到了进行点击事件的目的。</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
