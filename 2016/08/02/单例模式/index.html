@@ -6,25 +6,31 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <title>银色子弹</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="#recyclerview  学习
-Recyclerview 是 support-v7包中的新组件，用来替代 listview，gridview的使用。
-public class RecyclerView extends ViewGroup implements ScrollingView, NestedScrollingChild 
-可知其实际上是一个实现了scrollingview 和 nes">
+  <meta name="description" content="单例模式这篇文章将列举一些常见的单例模式写法，同时分析它们的优缺点。
+单例模式：
+这个类只有一个实例，对这个类的所有操作都是通过这个获得这个实例来进行的。一般来说用于一些产生多个实例会出现问题和异常的类，比如设备驱动，或者说有读写操作的类 等等。主要的特点为：
+1.构造函数一般为私有，即不让其他类进行new的操作。
+2.通过一个静态变量或者枚举返回一个实例对象。
+一般来说还要注意线程的安全性，因为">
 <meta property="og:type" content="article">
 <meta property="og:title" content="银色子弹">
-<meta property="og:url" content="http://yoursite.com/2016/07/27/recyclerview/index.html">
+<meta property="og:url" content="http://yoursite.com/2016/08/02/单例模式/index.html">
 <meta property="og:site_name" content="银色子弹">
-<meta property="og:description" content="#recyclerview  学习
-Recyclerview 是 support-v7包中的新组件，用来替代 listview，gridview的使用。
-public class RecyclerView extends ViewGroup implements ScrollingView, NestedScrollingChild 
-可知其实际上是一个实现了scrollingview 和 nes">
-<meta property="og:updated_time" content="2016-07-27T12:08:21.077Z">
+<meta property="og:description" content="单例模式这篇文章将列举一些常见的单例模式写法，同时分析它们的优缺点。
+单例模式：
+这个类只有一个实例，对这个类的所有操作都是通过这个获得这个实例来进行的。一般来说用于一些产生多个实例会出现问题和异常的类，比如设备驱动，或者说有读写操作的类 等等。主要的特点为：
+1.构造函数一般为私有，即不让其他类进行new的操作。
+2.通过一个静态变量或者枚举返回一个实例对象。
+一般来说还要注意线程的安全性，因为">
+<meta property="og:updated_time" content="2016-08-02T07:01:44.218Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="银色子弹">
-<meta name="twitter:description" content="#recyclerview  学习
-Recyclerview 是 support-v7包中的新组件，用来替代 listview，gridview的使用。
-public class RecyclerView extends ViewGroup implements ScrollingView, NestedScrollingChild 
-可知其实际上是一个实现了scrollingview 和 nes">
+<meta name="twitter:description" content="单例模式这篇文章将列举一些常见的单例模式写法，同时分析它们的优缺点。
+单例模式：
+这个类只有一个实例，对这个类的所有操作都是通过这个获得这个实例来进行的。一般来说用于一些产生多个实例会出现问题和异常的类，比如设备驱动，或者说有读写操作的类 等等。主要的特点为：
+1.构造函数一般为私有，即不让其他类进行new的操作。
+2.通过一个静态变量或者枚举返回一个实例对象。
+一般来说还要注意线程的安全性，因为">
   
     <link rel="alternative" href="/atom.xml" title="银色子弹" type="application/atom+xml">
   
@@ -196,11 +202,11 @@ public class RecyclerView extends ViewGroup implements ScrollingView, NestedScro
 	</div>
 </nav>
 
-      <div class="body-wrap"><article id="post-recyclerview" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-单例模式" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/07/27/recyclerview/" class="article-date">
-  	<time datetime="2016-07-27T12:10:06.571Z" itemprop="datePublished">2016-07-27</time>
+      <a href="/2016/08/02/单例模式/" class="article-date">
+  	<time datetime="2016-08-02T07:01:44.115Z" itemprop="datePublished">2016-08-02</time>
 </a>
     </div>
   
@@ -211,121 +217,54 @@ public class RecyclerView extends ViewGroup implements ScrollingView, NestedScro
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>#recyclerview  学习</p>
-<p>Recyclerview 是 support-v7包中的新组件，用来替代 listview，gridview的使用。</p>
-<pre><code>public class RecyclerView extends ViewGroup implements ScrollingView, NestedScrollingChild 
-</code></pre><p>可知其实际上是一个实现了scrollingview 和 nestedscrolling的viewgroup。</p>
-<p>其优点为：</p>
-<p>1.强大的布局设置，通过其setlayoutmannager()方法可以很轻松的改变recyclerview 的布局。</p>
-<p>2.集成了动画效果，我们还可以自定义动画效果。</p>
-<p>3.集成了viewholder，在listview 中我们集成viewholder用于item数据复用的效果，在recylerview中我们最终所返回的就是一个viewholder。</p>
-<p>缺点：</p>
-<p>点击事件设置略繁琐</p>
-<p>布局文件</p>
-<pre><code>&lt;android.support.v7.widget.RecyclerView
-   android:id=&quot;@+id/recy&quot;
-   android:layout_width=&quot;match_parent&quot;
-   android:layout_height=&quot;match_parent&quot;
-   &gt;&lt;/android.support.v7.widget.RecyclerView&gt;
-</code></pre><p>使用方法 </p>
-<pre><code>recyclerView = (RecyclerView)findViewById(R.id.recy);
-recyclerView.setLayoutManager(new LinearLayoutManager(this));
-recyclerView.setAdapter(new MRecyclerViewAdapter(ScrollingActivity.this, mstrings));
-recyclerView.setItemAnimator(new DefaultItemAnimator());
-</code></pre><p>adater</p>
-<pre><code>public class MRecyclerViewAdapter extends RecyclerView.Adapter &lt;MRecyclerViewAdapter.MViewHolder&gt;{
-private Context context;
-private List&lt;String&gt; mstrings;
-public MRecyclerViewAdapter(Context context, List&lt;String&gt; strings){
-    this.context = context;
-    mstrings = strings;
+        <h1 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h1><p>这篇文章将列举一些常见的单例模式写法，同时分析它们的优缺点。</p>
+<p>单例模式：</p>
+<p>这个类只有一个实例，对这个类的所有操作都是通过这个获得这个实例来进行的。一般来说用于一些产生多个实例会出现问题和异常的类，比如设备驱动，或者说有读写操作的类 等等。主要的特点为：</p>
+<p>1.构造函数一般为私有，即不让其他类进行new的操作。</p>
+<p>2.通过一个静态变量或者枚举返回一个实例对象。</p>
+<p>一般来说还要注意线程的安全性，因为在不同的线程下，可能会同时new出两个实例，所以要进行处理。</p>
+<p>一般的写法（线程不安全）</p>
+<pre><code>   public static HallConfigManager getInstance() {
+    if (mHallConfigManager == null)
+        mHallConfigManager = new HallConfigManager();
+    return mHallConfigManager;
 }
-@Override
-public MViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-    View view = LayoutInflater.from(context).inflate(R.layout.item_text, parent ,false);
-    MViewHolder mViewHolder = new MViewHolder(view);
-    return mViewHolder;
+</code></pre><p>调用方法时，判断是否已有实例，没有就创建，有则return已有的实例。但问题在于线程不安全，多个线程可能new出几个实例。</p>
+<p> synchronized（线程安全但效率低）</p>
+<pre><code>  public synchronized static HallConfigManager getInstance() {
+    if (mHallConfigManager == null)
+        mHallConfigManager = new HallConfigManager();
+    return mHallConfigManager;
+}
+</code></pre><p>加入synchronized 关键字，使调用getInstance()方法线程安全，问题在每次调用getInstance是要进行线程安全的检测，效率过于低下。</p>
+<p>synchronized (线程安全且较为平衡)</p>
+<pre><code>    public synchronized static HallConfigManager getInstance() {
+    if (mHallConfigManager == null)
+        synchronized (HallConfigManager.class){
+            if (mHallConfigManager == null){
+                mHallConfigManager = new HallConfigManager();
+            }
+        }
+    return mHallConfigManager;
+}
+</code></pre><p>在实例为空时进行线程安全的检测，然后new出实例，一般情况下（绝大部分大部分情况下），直接得到实例。</p>
+<p>除这些之外，还有一些方法可以实现。</p>
+<pre><code>  private static HallConfigManager mHallConfigManager = new HallConfigManager();
+
+public synchronized static HallConfigManager getInstance() {
+    return mHallConfigManager;
+}
+</code></pre><p>或者</p>
+<pre><code>   private static HallConfigManager mHallConfigManager = null;
+
+static {
+    mHallConfigManager = new HallConfigManager();
 }
 
-@Override
-public void onBindViewHolder(final MViewHolder holder,final  int position) {
-    holder.textView.setText(mstrings.get(position));
+public synchronized static HallConfigManager getInstance() {
+    return mHallConfigManager;
 }
-
-@Override
-public int getItemCount() {
-    return mstrings.size();
-}
-
-class MViewHolder extends RecyclerView.ViewHolder{
-     TextView textView;
-    public MViewHolder(View itemView) {
-        super(itemView);
-        textView = (TextView)itemView.findViewById(R.id.tv_item);
-    }
-}
-</code></pre><p>}</p>
-<p>其必须override的方法有3个 </p>
-<p>public MViewHolder onCreateViewHolder(ViewGroup parent, int viewType)  这个方法返回值是一个viewholder ，而我们看viewholder的构造方法中传入的参数为view，就是item布局所产生的view。可以看出这个方法是return结果，返回view的。而public void onBindViewHolder(final MViewHolder holder,final  int position)主要用于为viewholder中的组件设置正确的数据的。getitemcount（）用于返回数据的数量。还有一个就是我们自定义的viewholder，初始化组件，绑定组件id。</p>
-<p>经过以上步骤，recylerview就设置好了，但是做为用于替代listview的组件，点击事件是不可能缺少的。</p>
-<p>在listview中我们一般使用setonitemclicklistener来设置点击事件。遗憾的是，google并没有为recyclerview封装这样的方法，我们只能找其他方法。</p>
-<p>最终代码</p>
-<pre><code>public class MRecyclerViewAdapter extends RecyclerView.Adapter &lt;MRecyclerViewAdapter.MViewHolder&gt; implements View.OnClickListener{
-private Context context;
-private List&lt;String&gt; mstrings;
-public MRecyclerViewAdapter(Context context, List&lt;String&gt; strings){
-    this.context = context;
-    mstrings = strings;
-}
-public RecylerViewOnitemClickListener recylerViewOnitemClickListener = null;
-public static interface RecylerViewOnitemClickListener {
-   void onitemclick(View view, String data);
-}
-@Override
-public MViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-    View view = LayoutInflater.from(context).inflate(R.layout.item_text, parent ,false);
-    MViewHolder mViewHolder = new MViewHolder(view);
-    view.setOnClickListener(this);
-    return mViewHolder;
-}
-
-@Override
-public void onBindViewHolder(final MViewHolder holder,final  int position) {
-    holder.textView.setText(mstrings.get(position));
-    holder.itemView.setTag(mstrings.get(position));
-}
-
-@Override
-public int getItemCount() {
-    return mstrings.size();
-}
-
-@Override
-public void onClick(View view) {
-    if(recylerViewOnitemClickListener != null){
-     recylerViewOnitemClickListener.onitemclick(view,(String) view.getTag());
-    }
-}
-
-public void setonitemclicklistener(RecylerViewOnitemClickListener recylerViewOnitemClickListener){
-    this.recylerViewOnitemClickListener = recylerViewOnitemClickListener;
-}
-
-class MViewHolder extends RecyclerView.ViewHolder{
-     TextView textView;
-    public MViewHolder(View itemView) {
-        super(itemView);
-        textView = (TextView)itemView.findViewById(R.id.tv_item);
-    }
-}
-</code></pre><p>}</p>
-<pre><code>mRecyclerViewAdapter.setonitemclicklistener(new MRecyclerViewAdapter.RecylerViewOnitemClickListener() {
-       @Override
-       public void onitemclick(View view, String data) {
-           Toast.makeText(ScrollingActivity.this,data,Toast.LENGTH_LONG).show();
-       }
-   });
-</code></pre><p>当我们点击一个recylerview中的item时，首先触发了adapter中这个view 的onclick方法，在onclick方法中，我们调用了RecylerViewOnitemClickListener  的onitemclick方法 ，而我们就实现了这个接口同时重写了onitemclick 方法 ，这样就达到了进行点击事件的目的。</p>
+</code></pre><p>都是通过在调用之前就初始化了实例，是线程安全。</p>
 
       
     </div>
@@ -335,18 +274,9 @@ class MViewHolder extends RecyclerView.ViewHolder{
     
 <nav id="article-nav">
   
-    <a href="/2016/08/02/单例模式/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          (no title)
-        
-      </div>
-    </a>
   
-  
-    <a href="/2016/03/25/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Hello World</div>
+    <a href="/2016/07/27/recyclerview/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title"></div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -381,7 +311,7 @@ class MViewHolder extends RecyclerView.ViewHolder{
 
 <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="recyclerview" data-title="" data-url="http://yoursite.com/2016/07/27/recyclerview/"></div>
+	<div class="ds-thread" data-thread-key="单例模式" data-title="" data-url="http://yoursite.com/2016/08/02/单例模式/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">

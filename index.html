@@ -188,6 +188,95 @@
 
       <div class="body-wrap">
   
+    <article id="post-单例模式" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/08/02/单例模式/" class="article-date">
+  	<time datetime="2016-08-02T07:01:44.115Z" itemprop="datePublished">2016-08-02</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h1><p>这篇文章将列举一些常见的单例模式写法，同时分析它们的优缺点。</p>
+<p>单例模式：</p>
+<p>这个类只有一个实例，对这个类的所有操作都是通过这个获得这个实例来进行的。一般来说用于一些产生多个实例会出现问题和异常的类，比如设备驱动，或者说有读写操作的类 等等。主要的特点为：</p>
+<p>1.构造函数一般为私有，即不让其他类进行new的操作。</p>
+<p>2.通过一个静态变量或者枚举返回一个实例对象。</p>
+<p>一般来说还要注意线程的安全性，因为在不同的线程下，可能会同时new出两个实例，所以要进行处理。</p>
+<p>一般的写法（线程不安全）</p>
+<pre><code>   public static HallConfigManager getInstance() {
+    if (mHallConfigManager == null)
+        mHallConfigManager = new HallConfigManager();
+    return mHallConfigManager;
+}
+</code></pre><p>调用方法时，判断是否已有实例，没有就创建，有则return已有的实例。但问题在于线程不安全，多个线程可能new出几个实例。</p>
+<p> synchronized（线程安全但效率低）</p>
+<pre><code>  public synchronized static HallConfigManager getInstance() {
+    if (mHallConfigManager == null)
+        mHallConfigManager = new HallConfigManager();
+    return mHallConfigManager;
+}
+</code></pre><p>加入synchronized 关键字，使调用getInstance()方法线程安全，问题在每次调用getInstance是要进行线程安全的检测，效率过于低下。</p>
+<p>synchronized (线程安全且较为平衡)</p>
+<pre><code>    public synchronized static HallConfigManager getInstance() {
+    if (mHallConfigManager == null)
+        synchronized (HallConfigManager.class){
+            if (mHallConfigManager == null){
+                mHallConfigManager = new HallConfigManager();
+            }
+        }
+    return mHallConfigManager;
+}
+</code></pre><p>在实例为空时进行线程安全的检测，然后new出实例，一般情况下（绝大部分大部分情况下），直接得到实例。</p>
+<p>除这些之外，还有一些方法可以实现。</p>
+<pre><code>  private static HallConfigManager mHallConfigManager = new HallConfigManager();
+
+public synchronized static HallConfigManager getInstance() {
+    return mHallConfigManager;
+}
+</code></pre><p>或者</p>
+<pre><code>   private static HallConfigManager mHallConfigManager = null;
+
+static {
+    mHallConfigManager = new HallConfigManager();
+}
+
+public synchronized static HallConfigManager getInstance() {
+    return mHallConfigManager;
+}
+</code></pre><p>都是通过在调用之前就初始化了实例，是线程安全。</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-recyclerview" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
