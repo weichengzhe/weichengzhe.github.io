@@ -22,7 +22,7 @@
 1.构造函数一般为私有，即不让其他类进行new的操作。
 2.通过一个静态变量或者枚举返回一个实例对象。
 一般来说还要注意线程的安全性，因为">
-<meta property="og:updated_time" content="2016-08-09T10:58:14.109Z">
+<meta property="og:updated_time" content="2016-08-09T11:09:33.455Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="单例模式">
 <meta name="twitter:description" content="单例模式这篇文章将列举一些常见的单例模式写法，同时分析它们的优缺点。
@@ -87,13 +87,13 @@
 				<div class="tips-box hide">
 					<div class="tips-arrow"></div>
 					<ul class="tips-inner">
-						<li>菜单</li>
+						<li>Menu</li>
 						<li>Tags</li>
 						
-						<li>友情链接</li>
+						<li>Links</li>
 						
 						
-						<li>Über</li>
+						<li>About</li>
 						
 					</ul>
 				</div>
@@ -240,7 +240,7 @@
 <p>这个类只有一个实例，对这个类的所有操作都是通过这个获得这个实例来进行的。一般来说用于一些产生多个实例会出现问题和异常的类，比如设备驱动，或者说有读写操作的类 等等。主要的特点为：</p>
 <p>1.构造函数一般为私有，即不让其他类进行new的操作。</p>
 <p>2.通过一个静态变量或者枚举返回一个实例对象。</p>
-<p>一般来说还要注意线程的安全性，因为在不同的线程下，可能会同时new出两个实例，所以要进行处理。</p>
+<p>一般来说还要注意线程的安全性，因为在不同的线程下，可能会同时new出两个实例，所以要进行处理。<br><a id="more"></a></p>
 <p>一般的写法（线程不安全）</p>
 <pre><code>   public static HallConfigManager getInstance() {
     if (mHallConfigManager == null)
@@ -307,7 +307,7 @@ public synchronized static HallConfigManager getInstance() {
 <div class="share_jia">
 	<!-- JiaThis Button BEGIN -->
 	<div class="jiathis_style">
-		<span class="jiathis_txt">分享到: &nbsp; </span>
+		<span class="jiathis_txt">Share to: &nbsp; </span>
 		<a class="jiathis_button_facebook"></a> 
     <a class="jiathis_button_twitter"></a>
     <a class="jiathis_button_plus"></a> 
